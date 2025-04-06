@@ -1,0 +1,19 @@
+[project]
+name = "bank-cli-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "syedmuneeb321", email = "130203424+syedmuneeb321@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.32.3",
+]
+
+[project.scripts]
+bank-cli-app = "bank_cli_app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

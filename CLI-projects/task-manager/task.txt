@@ -1,0 +1,2 @@
+learn english||done
+learn python||not_done

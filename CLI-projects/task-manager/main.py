@@ -28,7 +28,7 @@ def save_tasks(tasks:list[dict[str,Any]])->None:
     try:
         with open(file_path,'w',encoding='utf-8') as file:
             for task in tasks:
-                status = "done" if task['done']=="done" else "not_done"
+                status = "done" if task['done'] else "not_done"
                 text = task['text']
                 file.write(f"{text}||{status}\n")
     except Exception as e:
@@ -42,7 +42,7 @@ def display_tasks(tasks:list[dict[str,Any]])->None:
     else:
         print("\n--- Your Tasks ---")
         for i , task in enumerate(tasks):
-            checkbox = "✅" if task['done'] == "done" else ""
+            checkbox = "✅" if task['done']  else ""
             print(f"{i+1}. [{checkbox}] {task['text']}")
 
     print()
@@ -66,7 +66,7 @@ def task_manager() -> None :
             case "1":
                 task_text = input("Enter a task: ").strip()
                 if task_text: 
-                    tasks.append({"text":task_text,"done":"not_done"})
+                    tasks.append({"text":task_text,"done":False})
                     save_tasks(tasks=tasks)
                     print(f"Task '{task_text}' added successfully.\n")
                 else:
@@ -74,21 +74,27 @@ def task_manager() -> None :
             case "2":
                 display_tasks(tasks=tasks)
             case "3":
-                task_id = int(input("Enter task ID to mark as completed: ").strip())
-                if 1 <= task_id <= len(tasks):
-                    tasks[task_id-1]['done'] = "done"
-                    save_tasks(tasks=tasks)
-                    print(f"Task #{task_id} marked as completed.\n")
-                else:
-                    print("Invalid task ID.\n")
+                try:
+                    task_id = int(input("Enter task ID to mark as completed: ").strip())
+                    if 1 <= task_id <= len(tasks):
+                        tasks[task_id-1]['done'] = True
+                        save_tasks(tasks=tasks)
+                        print(f"Task #{task_id} marked as completed.\n")
+                    else:
+                        print("Invalid task ID.\n")
+                except ValueError:
+                    print("Please enter a valid number for task ID.\n")
             case "4":
-                task_id = int(input("Enter task ID to delete: ").strip())
-                if 1 <= task_id <= len(tasks):
-                    removed_task=tasks.pop(task_id-1)
-                    save_tasks(tasks=tasks)
-                    print(f"Task '{removed_task['text']}' deleted successfully.\n")
-                else:
-                    print("Invalid task ID.\n")
+                try:
+                    task_id = int(input("Enter task ID to delete: ").strip())
+                    if 1 <= task_id <= len(tasks):
+                        removed_task=tasks.pop(task_id-1)
+                        save_tasks(tasks=tasks)
+                        print(f"Task '{removed_task['text']}' deleted successfully.\n")
+                    else:
+                        print("Invalid task ID.\n")
+                except ValueError:
+                    print("Please enter a valid number for task ID.\n")
             case "5":
                 print("Exiting Task Manager. Goodbye!")
                 break

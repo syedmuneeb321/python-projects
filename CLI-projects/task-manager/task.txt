@@ -1,1 +1,2 @@
-learn python||not_done
+learn DSA||not_done
+go for walk||done
